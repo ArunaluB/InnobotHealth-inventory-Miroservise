@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -65,6 +66,7 @@ public class medicineserviseimpl implements medicineservise {
             // If the entity exists, update its details
             MedicineEntity entityToUpdate = optionalEntity.get();
             entityToUpdate.setMedicineName(dto.getMedicineName());
+            entityToUpdate.setExpireDate(dto.getExpireDate());
             entityToUpdate.setQuantity(dto.getQuantity());
             entityToUpdate.setUnitPrice(dto.getUnitPrice());
 
@@ -94,6 +96,19 @@ public class medicineserviseimpl implements medicineservise {
         }
     }
 
+    @Override
+    public List<MedicineDtoSU> ExpireMedicineShow() {
+        LocalDate currentDate = LocalDate.now();
+        log.info("check date this sysstem: {}", currentDate);
+        List<MedicineEntity> medicineEntities = Mrepository.findAll();
+        log.info("check date this sysstem: {}", medicineEntities);
+        // Filter out expired medicines
+        List<MedicineDtoSU> validMedicines = medicineEntities.stream()
+                .filter(entity -> entity.getExpireDate().compareTo(String.valueOf(currentDate)) <= 0) // Check expiration date
+                .map(entity -> mapper.map(entity, MedicineDtoSU.class))
+                .collect(Collectors.toList());
+        return validMedicines;
+    }
 
 
 }

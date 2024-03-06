@@ -65,6 +65,10 @@ public class medicinecontroller {
         return MedicineServise.deleteExpireMedicine(medicineName);
     }
 
+    @GetMapping("/ex")
+    public List<MedicineDtoSU> getAllExpireMedicine() {
+        return MedicineServise.ExpireMedicineShow();
+    }
 
 
 
