@@ -23,6 +23,7 @@ public class medicineserviseimpl implements medicineservise {
     private final medicinerepository Mrepository;
     private final ModelMapper mapper;
     private final SequenceService sequenceService;
+    private final PDFGenerator pdfGenerationService;
 
 
     @Override
@@ -108,6 +109,64 @@ public class medicineserviseimpl implements medicineservise {
                 .map(entity -> mapper.map(entity, MedicineDtoSU.class))
                 .collect(Collectors.toList());
         return validMedicines;
+    }
+//    @Override
+//    public boolean AllMedicinepdf() {
+//        List<MedicineEntity> medicineEntities = Mrepository.findAll();
+//        // Generate PDF
+//        try {
+//            pdfGenerationService.generatePDF("All Medicines", medicineEntities);
+//            return true;
+//        } catch (Exception e) {
+//            log.error("Error generating PDF for all medicines: {}", e.getMessage());
+//            return false;
+//        }
+//    }
+//
+//
+//    @Override
+//    public boolean ExpireMedicinepdf() {
+//        List<MedicineDtoSU> dtoList = ExpireMedicineShow();
+//        List<MedicineEntity> medicineEntities = dtoList.stream()
+//                .map(dto -> mapper.map(dto, MedicineEntity.class))
+//                .collect(Collectors.toList());
+//
+//        // Generate PDF
+//        try {
+//            pdfGenerationService.generatePDF("Expired Medicines", medicineEntities);
+//            return true;
+//        } catch (Exception e) {
+//            log.error("Error generating PDF for expired medicines: {}", e.getMessage());
+//            return false;
+//        }
+//    }
+
+    @Override
+    public byte[] AllMedicinepdf() {
+        List<MedicineEntity> medicineEntities = Mrepository.findAll();
+        // Generate PDF
+        try {
+            return pdfGenerationService.generatePDF("All Medicines", medicineEntities);
+        } catch (Exception e) {
+            log.error("Error generating PDF for all medicines: {}", e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public byte[] ExpireMedicinepdf() {
+        List<MedicineDtoSU> dtoList = ExpireMedicineShow();
+        List<MedicineEntity> medicineEntities = dtoList.stream()
+                .map(dto -> mapper.map(dto, MedicineEntity.class))
+                .collect(Collectors.toList());
+
+        // Generate PDF
+        try {
+            return pdfGenerationService.generatePDF("Expired Medicines", medicineEntities);
+        } catch (Exception e) {
+            log.error("Error generating PDF for expired medicines: {}", e.getMessage());
+            return null;
+        }
     }
 
 

@@ -18,4 +18,7 @@ public interface medicineservise {
     String deleteExpireMedicine(String medicineName);
 
     List<MedicineDtoSU> ExpireMedicineShow();
+
+    byte[] AllMedicinepdf();
+    byte[] ExpireMedicinepdf();
 }
