@@ -1,6 +1,7 @@
 package com.Innoboat.MedicineMiroservise.servise.impl;
 
 import com.Innoboat.MedicineMiroservise.dto.MedicineDto;
+import com.Innoboat.MedicineMiroservise.dto.MedicineDtoSU;
 import com.Innoboat.MedicineMiroservise.entity.MedicineEntity;
 import com.Innoboat.MedicineMiroservise.repository.medicinerepository;
 import com.Innoboat.MedicineMiroservise.servise.medicineservise;
@@ -19,11 +20,15 @@ public class medicineserviseimpl implements medicineservise {
 
     private final medicinerepository Mrepository;
     private final ModelMapper mapper;
+    private final SequenceService sequenceService;
+
 
     @Override
     public void addmedicineservise(MedicineDto dto) {
         log.info("Received Serviseclassimpl to add medicine: {}", dto);
         MedicineEntity mappEntity = mapper.map(dto,MedicineEntity.class);
+        // Generate the next sequence value
+        mappEntity.setStockid(sequenceService.getNextSequence("stockid"));
         log.info("Convert model mapper Entity class: {}", dto);
         Mrepository.save(mappEntity);
     }
@@ -38,9 +43,9 @@ public class medicineserviseimpl implements medicineservise {
     }
 
     @Override
-    public MedicineDto getMedicineName(String medicineName) {
+    public MedicineDtoSU getMedicineName(String medicineName) {
         MedicineEntity medicineEntity = Mrepository.findByMedicineName(medicineName);
-        return mapper.map(medicineEntity, MedicineDto.class);
+        return mapper.map(medicineEntity, MedicineDtoSU.class);
     }
 
 

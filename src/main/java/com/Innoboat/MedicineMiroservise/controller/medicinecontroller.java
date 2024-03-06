@@ -1,6 +1,7 @@
 package com.Innoboat.MedicineMiroservise.controller;
 
 import com.Innoboat.MedicineMiroservise.dto.MedicineDto;
+import com.Innoboat.MedicineMiroservise.dto.MedicineDtoSU;
 import com.Innoboat.MedicineMiroservise.servise.medicineservise;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,15 +44,19 @@ public class medicinecontroller {
         return MedicineServise.getMedicineId(id);
     }
 
-    @GetMapping("/name/{medicineName}") // URL path variable name is medicineName
-    public ResponseEntity<MedicineDto> getMedicineByName(@PathVariable String medicineName) {
-        MedicineDto medicineDto = MedicineServise.getMedicineName(medicineName);
+    @GetMapping("/name/{medicineName}")
+    public ResponseEntity<MedicineDtoSU> getMedicineByName(@PathVariable String medicineName) {
+        MedicineDtoSU medicineDto = MedicineServise.getMedicineName(medicineName);
         if (medicineDto != null) {
             return new ResponseEntity<>(medicineDto, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+   // public
+
+
 
 
 
