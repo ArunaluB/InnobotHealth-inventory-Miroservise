@@ -1,0 +1,5 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://snanayakkara426:w1MDd1HbBJ6kLyUh@cluster1.6o5xzfm.mongodb.net/
+      database: medicine_details
