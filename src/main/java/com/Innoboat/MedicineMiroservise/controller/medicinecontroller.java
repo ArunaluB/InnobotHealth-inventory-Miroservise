@@ -60,6 +60,10 @@ public class medicinecontroller {
     public Optional<MedicineEntity> updateMedicine(@RequestBody MedicineDtoSU dto){
         return MedicineServise.updateMedicine(dto);
     }
+    @DeleteMapping("/{medicineName}")
+    public String deleteExpireMedicine(@PathVariable String medicineName){
+        return MedicineServise.deleteExpireMedicine(medicineName);
+    }
 
 
 

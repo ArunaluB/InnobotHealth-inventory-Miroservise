@@ -78,12 +78,22 @@ public class medicineserviseimpl implements medicineservise {
         }
     }
 
-
     @Override
-    public String deleteExpireMedicine(Long id) {
-        Mrepository.deleteById(id);
-        return "medicine Deleted ";
+    public String deleteExpireMedicine(String medicineName) {
+        log.info("Deleting expired medicine: {}", medicineName);
+        // Find the medicine entity by its name
+        MedicineEntity medicineEntity = Mrepository.findByMedicineName(medicineName);
+        if (medicineEntity != null) {
+            // If the entity exists, delete it
+            Mrepository.delete(medicineEntity);
+            log.info("Expired medicine deleted: {}", medicineName);
+            return "Expired medicine deleted: " + medicineName;
+        } else {
+            log.info("No medicine found with name: {}", medicineName);
+            return "No medicine found with name: " + medicineName;
+        }
     }
+
 
 
 }

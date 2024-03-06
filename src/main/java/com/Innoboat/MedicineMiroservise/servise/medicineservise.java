@@ -15,5 +15,5 @@ public interface medicineservise {
 
     Optional<MedicineEntity> updateMedicine(MedicineDtoSU dto);
 
-    String deleteExpireMedicine(Long id);
+    String deleteExpireMedicine(String medicineName);
 }
