@@ -2,6 +2,7 @@ package com.Innoboat.MedicineMiroservise.controller;
 
 import com.Innoboat.MedicineMiroservise.dto.MedicineDto;
 import com.Innoboat.MedicineMiroservise.dto.MedicineDtoSU;
+import com.Innoboat.MedicineMiroservise.entity.MedicineEntity;
 import com.Innoboat.MedicineMiroservise.servise.medicineservise;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -35,7 +37,7 @@ public class medicinecontroller {
     }
 
     @GetMapping("/all")
-    public List<MedicineDto> getAllMedicine() {
+    public List<MedicineDtoSU> getAllMedicine() {
         return MedicineServise.AllmedicineShow();
     }
 
@@ -54,7 +56,10 @@ public class medicinecontroller {
         }
     }
 
-   // public
+    @PutMapping
+    public Optional<MedicineEntity> updateMedicine(@RequestBody MedicineDtoSU dto){
+        return MedicineServise.updateMedicine(dto);
+    }
 
 
 

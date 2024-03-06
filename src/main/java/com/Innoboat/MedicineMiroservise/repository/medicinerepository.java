@@ -6,4 +6,6 @@ import org.springframework.data.mongodb.repository.Query;
 
 public interface medicinerepository extends MongoRepository<MedicineEntity,Long> {
     MedicineEntity findByMedicineName(String medicineName);
+
+
 }

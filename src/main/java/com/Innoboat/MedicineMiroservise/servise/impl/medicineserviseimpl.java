@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,11 +35,11 @@ public class medicineserviseimpl implements medicineservise {
     }
 
     @Override
-    public List<MedicineDto> AllmedicineShow() {
+    public List<MedicineDtoSU> AllmedicineShow() {
         List<MedicineEntity> medicineEntities = Mrepository.findAll();
         // Convert each MedicineEntity to MedicineDto
         return medicineEntities.stream()
-                .map(entity -> mapper.map(entity, MedicineDto.class))
+                .map(entity -> mapper.map(entity, MedicineDtoSU.class))
                 .collect(Collectors.toList());
     }
 
@@ -56,12 +57,27 @@ public class medicineserviseimpl implements medicineservise {
     }
 
     @Override
-    public MedicineEntity updateMedicine(MedicineDto dto) {
-        //get the existing document db
-        MedicineEntity existingMedicine = Mrepository.findByMedicineName(dto.getMedicineName());
-        existingMedicine = mapper.map(dto,MedicineEntity.class);
-        return Mrepository.save(existingMedicine);
+    public Optional<MedicineEntity> updateMedicine(MedicineDtoSU dto) {
+        log.info("Received details to update: {}", dto);
+        // Find the medicine entity by its name
+        Optional<MedicineEntity> optionalEntity = Optional.ofNullable(Mrepository.findByMedicineName(dto.getMedicineName()));
+        if (optionalEntity.isPresent()) {
+            // If the entity exists, update its details
+            MedicineEntity entityToUpdate = optionalEntity.get();
+            entityToUpdate.setMedicineName(dto.getMedicineName());
+            entityToUpdate.setQuantity(dto.getQuantity());
+            entityToUpdate.setUnitPrice(dto.getUnitPrice());
+
+            // Save the updated entity
+            MedicineEntity updatedEntity = Mrepository.save(entityToUpdate);
+            log.info("Updated entity: {}", updatedEntity);
+            return Optional.of(updatedEntity);
+        } else {
+            log.info("No medicine found with name: {}", dto.getMedicineName());
+            return Optional.empty();
+        }
     }
+
 
     @Override
     public String deleteExpireMedicine(Long id) {

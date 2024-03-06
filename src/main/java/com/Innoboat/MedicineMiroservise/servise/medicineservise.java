@@ -5,14 +5,15 @@ import com.Innoboat.MedicineMiroservise.dto.MedicineDtoSU;
 import com.Innoboat.MedicineMiroservise.entity.MedicineEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface medicineservise {
     void addmedicineservise(MedicineDto dto);
-    List<MedicineDto> AllmedicineShow();
+    List<MedicineDtoSU> AllmedicineShow();
     MedicineDtoSU getMedicineName(String medicineName);
     MedicineDto getMedicineId(Long id);
 
-    MedicineEntity updateMedicine(MedicineDto dto);
+    Optional<MedicineEntity> updateMedicine(MedicineDtoSU dto);
 
     String deleteExpireMedicine(Long id);
 }
