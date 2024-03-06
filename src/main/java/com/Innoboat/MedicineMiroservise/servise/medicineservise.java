@@ -8,8 +8,8 @@ import java.util.List;
 public interface medicineservise {
     void addmedicineservise(MedicineDto dto);
     List<MedicineDto> AllmedicineShow();
-    MedicineEntity getMedicineName(String medicineName);
-    MedicineEntity getMedicineId(Long id);
+    MedicineDto getMedicineName(String medicineName);
+    MedicineDto getMedicineId(Long id);
 
     MedicineEntity updateMedicine(MedicineDto dto);
 

@@ -38,13 +38,16 @@ public class medicineserviseimpl implements medicineservise {
     }
 
     @Override
-    public MedicineEntity getMedicineName(String medicineName) {
-        return Mrepository.findByMedicineName(medicineName);
+    public MedicineDto getMedicineName(String medicineName) {
+        MedicineEntity medicineEntity = Mrepository.findByMedicineName(medicineName);
+        return mapper.map(medicineEntity, MedicineDto.class);
     }
 
+
     @Override
-    public MedicineEntity getMedicineId(Long id) {
-        return Mrepository.findById(id).get();
+    public MedicineDto getMedicineId(Long id) {
+        MedicineEntity DEntity = Mrepository.findById(id).get();
+        return mapper.map(DEntity, MedicineDto.class);
     }
 
     @Override
